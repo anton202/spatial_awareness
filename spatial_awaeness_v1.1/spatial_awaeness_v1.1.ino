@@ -2,7 +2,7 @@
 #include <LiquidCrystal.h>
 LiquidCrystal lcd(A0, A1, A5, A4, A3, A2);
 
-#define MOTOR_SPEED 100
+#define NORMAL_SPEED 100
 #define MAX_SPEED 255
 #define MAX_DISTANCE_FROM_OBSTICALE 20  // cm
 
@@ -17,8 +17,8 @@ void setup() {
   setMotorPins(right_motors);
   setMotorPins(left_motors);
 
-  setMotorSpeed(right_motors, MOTOR_SPEED);
-  setMotorSpeed(left_motors, MOTOR_SPEED);
+  setMotorSpeed(right_motors, NORMAL_SPEED);
+  setMotorSpeed(left_motors, NORMAL_SPEED);
 
   setMotorSpinDirection(right_motors, CLOCKWISE);
   setMotorSpinDirection(left_motors, CLOCKWISE);
@@ -42,7 +42,7 @@ void loop() {
   lcd.clear();
 
   distance = getDistance(sensor1);
- // Serial.print(distance);
+  // Serial.print(distance);
   //Serial.print("\n");
 
   //LCD DEBUGING
@@ -59,14 +59,18 @@ void loop() {
 
   if (distance < MAX_DISTANCE_FROM_OBSTICALE) {
     setMotorSpinDirection(left_motors, COUNTER_CLOCKWISE);
-    setMotorSpeed(left_motors, MAX_SPEED);
+    setMotorSpeed(left_motors, 175);
+    setMotorSpeed(right_motors, 175);
 
-    delay(500);
+    //delay(500);
 
-    setMotorSpinDirection(left_motors, CLOCKWISE);
-    setMotorSpeed(left_motors, MOTOR_SPEED);
+    //setMotorSpinDirection(left_motors, CLOCKWISE);
+    //setMotorSpeed(left_motors, MOTOR_SPEED);
 
   } else {
-    delay(200);
+    setMotorSpinDirection(left_motors, CLOCKWISE);
+    setMotorSpeed(left_motors, NORMAL_SPEED);
+    setMotorSpeed(right_motors, NORMAL_SPEED);
   }
+  delay(60);  // delay for the sonar sensor
 }
